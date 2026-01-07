@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokenomics - PyramidPulse</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 32px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #FFD700;
+        }
+
+        .connect-wallet {
+            background: linear-gradient(135deg, #FF0000 0%, #990000 100%);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .connect-wallet:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 0, 0, 0.6);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 150px 30px 80px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+        }
+
+        .page-header h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: 20px;
+            color: #a0a0a0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Token Supply */
+        .token-supply {
+            padding: 80px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .supply-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.1) 100%);
+            padding: 60px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            text-align: center;
+        }
+
+        .supply-number {
+            font-size: 64px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .supply-label {
+            font-size: 24px;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+
+        .supply-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .info-item {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .info-label {
+            color: #FFD700;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .info-value {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        /* Distribution Section */
+        .distribution {
+            padding: 80px 30px;
+            background: rgba(255, 215, 0, 0.02);
+        }
+
+        .distribution-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .distribution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .distribution-card {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .distribution-card:hover {
+            transform: translateY(-10px);
+            border-color: #FFD700;
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .distribution-percentage {
+            font-size: 48px;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+
+        .distribution-label {
+            font-size: 22px;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .distribution-description {
+            color: #a0a0a0;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* Mechanics Section */
+        .mechanics {
+            padding: 80px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .mechanics-content {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1) 0%, rgba(153, 0, 0, 0.1) 100%);
+            padding: 60px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .mechanics-title {
+            font-size: 38px;
+            color: #FFD700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .mechanics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mechanic-item {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .mechanic-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .mechanic-item h3 {
+            color: #FFD700;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .mechanic-item p {
+            color: #a0a0a0;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* Roadmap */
+        .roadmap {
+            padding: 80px 30px;
+            background: rgba(255, 215, 0, 0.02);
+        }
+
+        .roadmap-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .roadmap-timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .roadmap-card {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .roadmap-card:hover {
+            transform: translateY(-10px);
+            border-color: #FFD700;
+        }
+
+        .roadmap-phase {
+            font-size: 14px;
+            color: #FF0000;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .roadmap-card h3 {
+            font-size: 26px;
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+
+        .roadmap-card p {
+            color: #a0a0a0;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .roadmap-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .roadmap-list li {
+            color: #a0a0a0;
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .roadmap-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 30px;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 48px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 18px 45px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #FF0000 0%, #990000 100%);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.4);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.6);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 30px 30px;
+            background: rgba(0, 0, 0, 0.8);
+            text-align: center;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            color: #FFD700;
+            font-size: 28px;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #FFA500;
+            transform: translateY(-3px);
+        }
+
+        .disclaimer {
+            background: rgba(255, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            margin: 30px auto;
+            max-width: 800px;
+        }
+
+        .disclaimer p {
+            color: #FF6666;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .copyright {
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 36px;
+            }
+
+            .supply-card {
+                padding: 40px 20px;
+            }
+
+            .mechanics-content {
+                padding: 40px 20px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                font-size: 14px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🔺</span>
+                PyramidPulse
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tokenomics.html">Tokenomics</a></li>
+                <li><button class="connect-wallet">Connect Wallet</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1>$PULSE Tokenomics</h1>
+        <p>The Heartbeat of the Pyramid</p>
+    </header>
+
+    <!-- Token Supply Section -->
+    <section class="token-supply">
+        <div class="supply-card">
+            <div class="supply-number">1,000,000,000</div>
+            <div class="supply-label">Total $PULSE Supply</div>
+            <div class="supply-info">
+                <div class="info-item">
+                    <div class="info-label">Network</div>
+                    <div class="info-value">Solana</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Token Standard</div>
+                    <div class="info-value">SPL</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Liquidity</div>
+                    <div class="info-value">Locked</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Contract</div>
+                    <div class="info-value">Verified ✓</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Distribution Section -->
+    <section class="distribution">
+        <div class="distribution-container">
+            <h2 class="section-title">Token Distribution</h2>
+            <div class="distribution-grid">
+                <div class="distribution-card">
+                    <div class="distribution-percentage">50%</div>
+                    <div class="distribution-label">Community Pool</div>
+                    <div class="distribution-description">Funds Ponzi yields for stakers. This pool feeds the exponential rewards system and keeps the pulse alive.</div>
+                </div>
+                <div class="distribution-card">
+                    <div class="distribution-percentage">20%</div>
+                    <div class="distribution-label">Referrals</div>
+                    <div class="distribution-description">Multi-level bonuses: 10% level 1, 5% level 2, 3% level 3, 2% level 4, 1% level 5. Build your pyramid deep!</div>
+                </div>
+                <div class="distribution-card">
+                    <div class="distribution-percentage">10%</div>
+                    <div class="distribution-label">Auto-Burn</div>
+                    <div class="distribution-description">Tokens burned on sells to deflate supply and create scarcity. The more people exit, the fewer tokens remain.</div>
+                </div>
+                <div class="distribution-card">
+                    <div class="distribution-percentage">10%</div>
+                    <div class="distribution-label">Dev Treasury</div>
+                    <div class="distribution-description">For game updates, new features, and maintaining the pulse. Includes collapse events and leaderboards.</div>
+                </div>
+                <div class="distribution-card">
+                    <div class="distribution-percentage">10%</div>
+                    <div class="distribution-label">Marketing</div>
+                    <div class="distribution-description">Airdrops to top referrers and community incentives. Grow the network, grow your rewards!</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ponzi Mechanics -->
+    <section class="mechanics">
+        <div class="mechanics-content">
+            <h2 class="mechanics-title">How the Ponzi Mechanics Work</h2>
+            <p style="color: #a0a0a0; text-align: center; margin-bottom: 30px;">PyramidPulse is an explicit Ponzi game where early participants are rewarded by later participants. Here's how the system operates:</p>
+            
+            <div class="mechanics-grid">
+                <div class="mechanic-item">
+                    <div class="mechanic-icon">💰</div>
+                    <h3>Staking Rewards</h3>
+                    <p>Stake $PULSE to earn yields from the community pool. Rewards come from new stakers entering the system. The longer you hold, the more you can earn - until the pulse stops.</p>
+                </div>
+                <div class="mechanic-item">
+                    <div class="mechanic-icon">🔗</div>
+                    <h3>Referral Multipliers</h3>
+                    <p>Each referral adds to your pyramid. Level 1 gives 10%, Level 2 gives 5%, and so on. The deeper your network, the more passive income you generate from their stakes.</p>
+                </div>
+                <div class="mechanic-item">
+                    <div class="mechanic-icon">📈</div>
+                    <h3>Exponential Growth Phase</h3>
+                    <p>As more users join and stake, the community pool grows. Early adopters benefit most as their rewards are funded by new entrants. This is the "pulse up" phase.</p>
+                </div>
+                <div class="mechanic-item">
+                    <div class="mechanic-icon">🔥</div>
+                    <h3>Deflationary Burn</h3>
+                    <p>10% of every sell is burned forever. This reduces circulating supply and theoretically increases value for holders - as long as new money keeps flowing in.</p>
+                </div>
+                <div class="mechanic-item">
+                    <div class="mechanic-icon">⚠️</div>
+                    <h3>Collapse Risk</h3>
+                    <p>If growth stops or slows significantly, the pulse weakens. Late entrants may lose everything. The game is designed to eventually collapse - that's the Ponzi nature.</p>
+                </div>
+                <div class="mechanic-item">
+                    <div class="mechanic-icon">🎮</div>
+                    <h3>Random Events</h3>
+                    <p>Dev-triggered "collapse events" can reset certain mechanics or create new opportunities. This adds an element of chaos and keeps the game exciting.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="roadmap">
+        <div class="roadmap-container">
+            <h2 class="section-title">Roadmap</h2>
+            <div class="roadmap-timeline">
+                <div class="roadmap-card">
+                    <div class="roadmap-phase">Phase 1</div>
+                    <h3>Launch & Stake</h3>
+                    <p>Initial token launch and staking mechanism deployment.</p>
+                    <ul class="roadmap-list">
+                        <li>Token generation event</li>
+                        <li>Liquidity lock on Raydium</li>
+                        <li>Staking platform launch</li>
+                        <li>Referral system activation</li>
+                        <li>Community building</li>
+                    </ul>
+                </div>
+                <div class="roadmap-card">
+                    <div class="roadmap-phase">Phase 2</div>
+                    <h3>Leaderboards</h3>
+                    <p>Competitive features and transparency tools.</p>
+                    <ul class="roadmap-list">
+                        <li>Top staker leaderboard</li>
+                        <li>Referral champion board</li>
+                        <li>Live metrics dashboard</li>
+                        <li>Pyramid depth visualizer</li>
+                        <li>Achievement badges</li>
+                    </ul>
+                </div>
+                <div class="roadmap-card">
+                    <div class="roadmap-phase">Phase 3</div>
+                    <h3>Collapse Events</h3>
+                    <p>Random game mechanics to keep the pulse exciting.</p>
+                    <ul class="roadmap-list">
+                        <li>Scheduled mini-collapses</li>
+                        <li>Bonus reward periods</li>
+                        <li>Emergency exits for whales</li>
+                        <li>New pyramid cycles</li>
+                        <li>Community voting on events</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Build Your Pyramid?</h2>
+            <p style="color: #a0a0a0; font-size: 18px; margin-bottom: 20px;">Join the pulse or watch from the sidelines. Either way, this is going to be wild.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary">Buy $PULSE Now</a>
+                <a href="#" class="btn btn-secondary">Read Whitepaper</a>
+            </div>
+            <p style="color: #FF6666; margin-top: 40px; font-size: 14px;">⚠️ Remember: This is a game. High risk, high reward, or total loss.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="#" title="Telegram">💬</a>
+            <a href="#" title="Twitter">🐦</a>
+            <a href="#" title="Discord">🎮</a>
+            <a href="#" title="Medium">📝</a>
+        </div>
+        <div class="disclaimer">
+            <p><strong>⚠️ IMPORTANT DISCLAIMER:</strong> PyramidPulse is a fictional Ponzi game created for entertainment and educational purposes only. This project involves extremely high risk and is designed to simulate pyramid scheme mechanics. Participants can lose all invested funds. This is NOT financial advice. Always do your own research (DYOR) and never invest more than you can afford to lose. Cryptocurrency investments are volatile and unregulated. By participating, you acknowledge and accept all risks involved.</p>
+        </div>
+        <div class="copyright">
+            © 2024 PyramidPulse. A fictional project for entertainment purposes only.
+        </div>
+    </footer>
+</body>
+</html>
